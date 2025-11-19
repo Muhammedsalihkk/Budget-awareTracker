@@ -22,13 +22,16 @@ const PrivateRoute = () => {
   }, [dispatch]);
 
   if (checkingAuth) {
-    return <div className="p-4">authenticationChecking</div>;
+    return (
+    <div className="flex justify-center items-center h-screen w-full">
+    <div className="h-12 w-12 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+  </div>
+    );
   }
 
   if (!profile) {
     return <Navigate to="/" replace />;
   }
-
 
   return <Outlet />;
 };

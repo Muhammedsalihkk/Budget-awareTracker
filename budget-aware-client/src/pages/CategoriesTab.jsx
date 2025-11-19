@@ -116,13 +116,6 @@ const CategoriesTab = () => {
           />
         )}
       </div>
-
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
-          ❌ {error}
-        </div>
-      )}
-
       {loading && (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (

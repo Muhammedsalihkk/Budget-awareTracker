@@ -7,7 +7,7 @@ createCategoryService: async (userId: string, name: string, color: string) => {
     const existingCategory = await Category.findOne({
       user: userId,
       name: { $regex: `^${name}$`, $options: "i" }, 
-      isDeleted: false,
+      isDelete: false,
     });
 
     if (existingCategory) {

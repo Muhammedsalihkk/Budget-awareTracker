@@ -37,11 +37,11 @@ const menu = [
 ];
 
 const mobileMenu = [
-  { label: "Dashboard", icon: <HomeOutlined />, to: "/dashboard" },
-  { label: "Reports", icon: <BarChartOutlined />, to: "/reports" },
-  { label: "Add", icon: <MessageOutlined />, to: "/add-expense" },
-  { label: "Profile", icon: <UserOutlined />, to: "/profile" },
-  { label: "Settings", icon: <SettingOutlined />, to: "/settings/categories" },
+  {  icon: <HomeOutlined />, to: "/dashboard" },
+  {  icon: <BarChartOutlined />, to: "/reports" },
+  {  icon: <MessageOutlined />, to: "/add-expense" },
+  {  icon: <UserOutlined />, to: "/profile" },
+  { icon: <SettingOutlined />, to: "/settings/categories" },
 ];
 
 const Sidebar = () => {
@@ -133,7 +133,7 @@ const Sidebar = () => {
               }
             >
               {item.icon}
-              <span>{item.label}</span>
+              
             </NavLink>
           ))}
         </div>
