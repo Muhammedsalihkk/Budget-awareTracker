@@ -28,7 +28,7 @@ A clean and responsive budget tracking application that helps users manage categ
 
 ---
 
-##  Features
+## Features
 - User Registration & Login (JWT-based)
 - Manage Categories
 - Create & Edit Monthly Budgets
@@ -39,8 +39,40 @@ A clean and responsive budget tracking application that helps users manage categ
 
 ---
 
-##  Installation (Run Locally)
+## Installation (Run Locally)
 
-###  Clone the repository
-```sh
+### Clone the repository
 git clone https://github.com/Muhammedsalihkk/Budget-awareTracker.git
+
+shell
+Copy code
+
+### Setup Frontend
+cd budget-aware-client
+npm install
+npm run dev
+
+shell
+Copy code
+
+### Setup Backend
+cd budget-aware-server
+npm install
+npm run dev
+
+yaml
+Copy code
+
+---
+
+## Backend `.env`
+PORT=5000
+MONGO_URI=your_mongodb_url
+JWT_SECRET=your_jwt_secret
+CLIENT_URL=http://localhost:5173
+
+shell
+Copy code
+
+## Frontend `.env` (Vite)
+VITE_API_BASE_URL=http://localhost:5000/api
