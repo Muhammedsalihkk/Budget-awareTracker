@@ -3,8 +3,8 @@ A simple budget tracking application that helps users manage monthly budgets, re
 
 
 ## Live Demo  
-**Frontend:** https://your-frontend-url  
-**Backend API:** https://your-backend-url  
+**Frontend:** https://budget-awaretracker.vercel.app
+**Backend API:** https://budget-awaretracker.onrender.com
 
 ---
 
