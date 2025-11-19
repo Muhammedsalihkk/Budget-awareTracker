@@ -5,7 +5,7 @@ export const validations = {
     register: Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
-      confirmassword: Joi.string()
+      confirmpassword: Joi.string()
         .valid(Joi.ref("password"))
         .required()
         .messages({
