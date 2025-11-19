@@ -7,7 +7,6 @@ import { validations } from "../validations";
 const router = Router();
 
 router.post("/",validateJoi(validations.expense),expensecontroller.addExpense);
-router.get("/:month", expensecontroller.getExpensesByMonth);
-router.delete("/:id", expensecontroller.deleteExpense);
+router.get("/:month", expensecontroller.getExpensesByMonth)
 
 export default router;

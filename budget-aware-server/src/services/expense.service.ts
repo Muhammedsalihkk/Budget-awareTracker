@@ -19,7 +19,6 @@ const expenseService = {
       throw error;
     }
   },
-
 getExpensesByMonthService: async (userId: string, month: string) => {
   try {
     const [year, monthNum] = month.split("-");
@@ -36,19 +35,6 @@ getExpensesByMonthService: async (userId: string, month: string) => {
     throw error;
   }
 },
-
-  deleteExpenseByIdService: async (userId: string, expenseId: string) => {
-    try {
-      const deletedExpense = await Expense.findOneAndUpdate(
-        { _id: expenseId, user: userId },
-        { isDeleted: true },
-        { new: true }
-      );
-      return deletedExpense;
-    } catch (error) {
-      throw error;
-    }
-  },
 };
 
 export default expenseService;

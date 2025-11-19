@@ -1,4 +1,4 @@
-import { Expense, Budget } from "../models/index";
+import { Expense, Budget, Category } from "../models/index";
 import mongoose from "mongoose";
 
 const reportService = {
@@ -54,72 +54,87 @@ budgetVsExpenseService: async (userId: string, month: string) => {
     const startDate = new Date(Number(year), Number(monthNum) - 1, 1);
     const endDate = new Date(Number(year), Number(monthNum), 1);
 
-    const result = await Budget.aggregate([
-      {
-        $match: {
-          user: new mongoose.Types.ObjectId(userId),
-          isDelete: false,
-          month, 
-        },
-      },
+const result = await Category.aggregate([
+  {
+    $match: {
+      user: new mongoose.Types.ObjectId(userId),
+      isDelete: false,
+    },
+  },
 
-      {
-        $lookup: {
-          from: "expenses",
-          let: { categoryId: "$category" },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $and: [
-                    { $eq: ["$category", "$$categoryId"] },
-                    { $eq: ["$user", new mongoose.Types.ObjectId(userId)] },
-                    { $eq: ["$isDelete", false] },
-                    { $gte: ["$date", startDate] },
-                    { $lt: ["$date", endDate] },
-                  ],
-                },
-              },
+  {
+    $lookup: {
+      from: "budgets",
+      let: { catId: "$_id" },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: ["$category", "$$catId"] },
+                { $eq: ["$user", new mongoose.Types.ObjectId(userId)] },
+                { $eq: ["$isDelete", false] },
+                { $eq: ["$month", month] },
+              ],
             },
-          ],
-          as: "expenses",
+          },
         },
-      },
+      ],
+      as: "budgetData",
+    },
+  },
 
-      {
-        $lookup: {
-          from: "categories",
-          localField: "category",
-          foreignField: "_id",
-          as: "categoryDetails",
+  {
+    $lookup: {
+      from: "expenses",
+      let: { catId: "$_id" },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: ["$category", "$$catId"] },
+                { $eq: ["$user", new mongoose.Types.ObjectId(userId)] },
+                { $eq: ["$isDelete", false] },
+                { $gte: ["$date", startDate] },
+                { $lt: ["$date", endDate] },
+              ],
+            },
+          },
         },
-      },
-      { $unwind: "$categoryDetails" },
+      ],
+      as: "expenses",
+    },
+  },
 
-      {
-        $addFields: {
-          spent: { $sum: "$expenses.amount" },
-        },
+  {
+    $addFields: {
+      budget: {
+        $ifNull: [{ $arrayElemAt: ["$budgetData.amount", 0] }, 0],
       },
+      spent: { $sum: "$expenses.amount" },
+    },
+  },
 
-      {
-        $addFields: {
-          remaining: { $subtract: ["$amount", "$spent"] },
-          isOver: { $gt: ["$spent", "$amount"] },
-        },
-      },
+  {
+    $addFields: {
+      remaining: { $subtract: ["$budget", "$spent"] },
+      isOver: { $gt: ["$spent", "$budget"] },
+    },
+  },
 
-      {
-        $project: {
-          _id: 0,
-          category: "$categoryDetails",
-          budget: "$amount",
-          spent: 1,
-          remaining: 1,
-          isOver: 1,
-        },
-      },
-    ]);
+  {
+    $project: {
+      _id: 0,
+      category: "$$ROOT",
+      budget: 1,
+      spent: 1,
+      remaining: 1,
+      isOver: 1,
+    },
+  },
+]);
+
 
     return result;
   } catch (error) {

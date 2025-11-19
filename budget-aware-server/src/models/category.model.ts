@@ -3,7 +3,7 @@ import { ICategory } from "../types";
 
 const categorySchema: Schema = new Schema<ICategory>(
   {
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true, },
     color: { type: String, required: true },
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     isDelete: { type: Boolean, default: false },
