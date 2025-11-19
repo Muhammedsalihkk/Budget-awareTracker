@@ -5,11 +5,11 @@ export const validations = {
     register: Joi.object({
       email: Joi.string().email().required(),
       password: Joi.string().min(6).required(),
-      confirmPassword: Joi.string()
+      confirmassword: Joi.string()
         .valid(Joi.ref("password"))
         .required()
         .messages({
-          "any.only": "Passwords do not match",
+          "any.only": "passwords do not match",
         }),
     }),
 

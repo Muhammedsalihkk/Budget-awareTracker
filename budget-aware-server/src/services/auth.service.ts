@@ -8,11 +8,11 @@ const authService = {
       const existingUser = await User.findOne({ email });
       if (existingUser) throw new Error("User already exists");
 
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedpassword = await bcrypt.hash(password, 10);
 
       const user = await User.create({
         email,
-        password: hashedPassword,
+        password: hashedpassword,
       })
 
       return user;
@@ -27,7 +27,7 @@ const authService = {
       if (!user) throw new Error("User not exists");
 
       const isMatch = await bcrypt.compare(password, user.password);
-      if (!isMatch) throw new Error("Password is incorrect");
+      if (!isMatch) throw new Error("password is incorrect");
 
       const token = generateToken(user.id);
 

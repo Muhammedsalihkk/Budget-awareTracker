@@ -1,4 +1,4 @@
-import { Formik } from "formik";
+import { Formik, replace } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
 import CustomInput from "../components/ui/Input";
@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email!").required("Email is required"),
-  password: Yup.string().min(6).required("Password is required"),
+  password: Yup.string().min(6).required("password is required"),
 });
 
 const LoginPage = () => {
@@ -24,7 +24,7 @@ const LoginPage = () => {
       
       if(res.payload.success){
         toast.success("Logged in successfully!");
-        navigate("/dashboard");
+        navigate("/dashboard",{replace:true});
       }
       else{
         toast.error(res.payload.message || "Login failed!");
@@ -73,7 +73,7 @@ const LoginPage = () => {
               />
 
               <CustomInput
-                label="Password"
+                label="password"
                 name="password"
                 type="password"
                 placeholder="Enter your password"

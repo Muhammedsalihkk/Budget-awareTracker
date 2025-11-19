@@ -37,11 +37,11 @@ const menu = [
 ];
 
 const mobileMenu = [
-  {  icon: <HomeOutlined />, to: "/dashboard" },
-  {  icon: <BarChartOutlined />, to: "/reports" },
-  {  icon: <MessageOutlined />, to: "/add-expense" },
-  {  icon: <UserOutlined />, to: "/profile" },
-  { icon: <SettingOutlined />, to: "/settings/categories" },
+  { icon: <HomeOutlined />, label: "Home", to: "/dashboard" },
+  { icon: <BarChartOutlined />, label: "Reports", to: "/reports" },
+  { icon: <MessageOutlined />, label: "Add Expense", to: "/add-expense" },
+  { icon: <UserOutlined />, label: "Profile", to: "/profile" },
+  { icon: <SettingOutlined />, label: "Settings", to: "/settings/categories" },
 ];
 
 const Sidebar = () => {
@@ -121,22 +121,24 @@ const Sidebar = () => {
         <div className="flex justify-around items-center py-3 px-2 max-w-screen-xl mx-auto">
           {mobileMenu.map((item, idx) => (
             <NavLink
-             
+              key={idx}
               to={item.to}
               onClick={() => setOpen(false)}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105 ${
-                  isActive || window.location.pathname.startsWith(item.to)
-                    ? "bg-indigo-100 text-indigo-600 font-semibold"
-                    : "text-gray-600 hover:bg-gray-100"
-                }`
+                `flex flex-col items-center gap-1 px-3 py-2 rounded-xl cursor-pointer transition-all duration-200 hover:scale-105
+        ${
+          isActive || window.location.pathname.startsWith(item.to)
+            ? "bg-indigo-100 text-indigo-600 font-semibold"
+            : "text-gray-600 hover:bg-gray-100"
+        }`
               }
             >
-              {item.icon}
-              
+              <span className="text-xl">{item.icon}</span>
+              <span className="text-xs">{item.label}</span>
             </NavLink>
           ))}
         </div>
+
         <div className="h-safe-area-inset-bottom" />
       </div>
     </div>
