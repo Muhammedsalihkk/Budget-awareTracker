@@ -27,7 +27,7 @@ const AddExpensePage = () => {
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const initialValues = {
     category: "",
@@ -56,39 +56,50 @@ const AddExpensePage = () => {
         Add New Expense
       </h2>
 
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
         <Form className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Category
             </label>
 
-           <Field
-  as="select"
-  name="category"
-  className="w-full border border-gray-300 rounded-md p-2"
-  onChange={(e) => {
-    if (e.target.value === "__add_new__") {
-      navigate("/settings/categories");
-      return;
-    }
-  }}
->
-  <option value="">Select Category</option>
+            <Field
+              as="select"
+              name="category"
+              className="w-full border border-gray-300 rounded-md p-2"
+              onChange={(e) => {
+                if (e.target.value === "__add_new__") {
+                  navigate("/settings/categories");
+                  return;
+                }
+  
+                e.target.form.dispatchEvent(
+                  new Event("submit", { cancelable: true })
+                );
+              }}
+            >
+              <option value="">Select Category</option>
 
-  {categories?.map((cat) => (
-    <option key={cat._id} value={cat._id}>
-      {cat.name}
-    </option>
-  ))}
+              {categories?.map((cat) => (
+                <option key={cat._id} value={cat._id}>
+                  {cat.name}
+                </option>
+              ))}
 
-  <option value="__add_new__" className="font-bold text-indigo-600">
-    + Add Category
-  </option>
-</Field>
+              <option value="__add_new__" className="font-bold text-indigo-600">
+                + Add Category
+              </option>
+            </Field>
 
-
-            <ErrorMessage name="category" component="p" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage
+              name="category"
+              component="p"
+              className="text-red-500 text-sm mt-1"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -100,15 +111,27 @@ const AddExpensePage = () => {
               className="w-full border border-gray-300 rounded-md p-2"
               placeholder="Enter amount"
             />
-            <ErrorMessage name="amount" component="p" className="text-red-500 text-sm mt-1" />
+            <ErrorMessage
+              name="amount"
+              component="p"
+              className="text-red-500 text-sm mt-1"
+            />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Date
             </label>
-            <Field type="date" name="date" className="w-full border border-gray-300 rounded-md p-2" />
-            <ErrorMessage name="date" component="p" className="text-red-500 text-sm mt-1" />
+            <Field
+              type="date"
+              name="date"
+              className="w-full border border-gray-300 rounded-md p-2"
+            />
+            <ErrorMessage
+              name="date"
+              component="p"
+              className="text-red-500 text-sm mt-1"
+            />
           </div>
 
           <div className="flex justify-center">
