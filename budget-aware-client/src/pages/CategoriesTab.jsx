@@ -32,9 +32,7 @@ const CategoriesTab = () => {
 
   const dispatch = useDispatch();
 
-  const { error, loading, categories } = useSelector(
-    (state) => state.category
-  );
+  const { error, loading, categories } = useSelector((state) => state.category);
 
   useEffect(() => {
     dispatch(getCategories());
@@ -108,12 +106,15 @@ const CategoriesTab = () => {
     <div className="max-w-5xl mx-auto p-6 bg-gray-50">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-gray-800">Manage Categories</h2>
-        <CustomButton
-          variant="default"
-          size="sm"
-          icon={<PlusIcon className="w-5 h-5" />}
-          onClick={() => setShowDialog(true)}
-        />
+
+        {categories?.length > 0 && (
+          <CustomButton
+            variant="default"
+            size="sm"
+            icon={<PlusIcon className="w-5 h-5" />}
+            onClick={() => setShowDialog(true)}
+          />
+        )}
       </div>
 
       {error && (
@@ -145,9 +146,18 @@ const CategoriesTab = () => {
       {!loading && (
         <div className="bg-white rounded-lg shadow p-4">
           {categories?.length === 0 ? (
-            <p className="text-gray-500 text-center py-8">
-              No categories found. Add your first one!
-            </p>
+            <div className="text-center py-10">
+              <p className="text-gray-500 mb-4">
+                No categories found. Add your first one!
+              </p>
+
+              <CustomButton
+                label="Add Category"
+                variant="primary"
+                icon={<PlusIcon className="w-5 h-5" />}
+                onClick={() => setShowDialog(true)}
+              />
+            </div>
           ) : (
             <ul className="space-y-3">
               {categories.map((cat) => (
@@ -163,7 +173,6 @@ const CategoriesTab = () => {
 
                     {editingId === cat._id ? (
                       <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full">
-
                         <input
                           value={editValue}
                           onChange={(e) => setEditValue(e.target.value)}
@@ -171,20 +180,22 @@ const CategoriesTab = () => {
                         />
 
                         <div className="flex flex-wrap gap-2">
-                          {["#FF5733", "#3498DB", "#2ECC71", "#F1C40F", "#9B59B6"].map(
-                            (c) => (
-                              <div
-                                key={c}
-                                className={`w-6 h-6 rounded-full cursor-pointer border ${
-                                  editColor === c
-                                    ? "ring-2 ring-indigo-500"
-                                    : ""
-                                }`}
-                                style={{ backgroundColor: c }}
-                                onClick={() => setEditColor(c)}
-                              />
-                            )
-                          )}
+                          {[
+                            "#FF5733",
+                            "#3498DB",
+                            "#2ECC71",
+                            "#F1C40F",
+                            "#9B59B6",
+                          ].map((c) => (
+                            <div
+                              key={c}
+                              className={`w-6 h-6 rounded-full cursor-pointer border ${
+                                editColor === c ? "ring-2 ring-indigo-500" : ""
+                              }`}
+                              style={{ backgroundColor: c }}
+                              onClick={() => setEditColor(c)}
+                            />
+                          ))}
 
                           <input
                             type="color"
@@ -193,14 +204,14 @@ const CategoriesTab = () => {
                             className="w-8 h-8 rounded cursor-pointer"
                           />
                         </div>
-
                       </div>
                     ) : (
-                      <span className="text-gray-700 font-medium">{cat.name}</span>
+                      <span className="text-gray-700 font-medium">
+                        {cat.name}
+                      </span>
                     )}
                   </div>
 
-               
                   <div className="flex gap-3 self-end sm:self-auto">
                     {editingId === cat._id ? (
                       <CheckIcon
@@ -262,9 +273,7 @@ const CategoriesTab = () => {
                           : ""
                       }`}
                       style={{ backgroundColor: color }}
-                      onClick={() =>
-                        setNewCategory({ ...newCategory, color })
-                      }
+                      onClick={() => setNewCategory({ ...newCategory, color })}
                     />
                   )
                 )}

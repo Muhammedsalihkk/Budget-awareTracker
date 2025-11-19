@@ -44,7 +44,7 @@ const Profile = () => {
     <div className="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-2xl mt-10">
       <div className="flex flex-col items-center">
         <div className="w-24 h-24 bg-indigo-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4 shadow-md">
-          JD
+          {profile?.email.split("")[0].toUpperCase()}
         </div>
         <h2 className="text-2xl font-bold text-gray-800">{profile&&profile.email.split("@")[0].toUpperCase()}</h2>
         <p className="text-sm text-gray-500">johndoe@example.com</p>
