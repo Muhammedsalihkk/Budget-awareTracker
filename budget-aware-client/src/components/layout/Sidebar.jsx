@@ -118,7 +118,7 @@ const Sidebar = () => {
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t border-gray-200 shadow-2xl md:hidden z-50">
-        <div className="flex justify-around items-center py-3 px-2 max-w-screen-xl mx-auto">
+        <div className="h-16 flex justify-around items-center py-3 px-2 max-w-screen-xl mx-auto">
           {mobileMenu.map((item, idx) => (
             <NavLink
               key={idx}

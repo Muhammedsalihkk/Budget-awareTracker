@@ -103,7 +103,7 @@ const CategoriesTab = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-6 bg-gray-50">
+    <div className="max-w-5xl mx-auto p-6 bg-gray-50 min-h-screen overflow-y-auto">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-3xl font-bold text-gray-800">Manage Categories</h2>
 
@@ -116,6 +116,7 @@ const CategoriesTab = () => {
           />
         )}
       </div>
+
       {loading && (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
@@ -152,87 +153,91 @@ const CategoriesTab = () => {
               />
             </div>
           ) : (
-            <ul className="space-y-3">
-              {categories.map((cat) => (
-                <li
-                  key={cat._id}
-                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg hover:bg-gray-50 transition gap-3"
-                >
-                  <div className="flex items-center gap-3 flex-1">
-                    <span
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: cat.color }}
-                    />
+            <div className="space-y-3 overflow-y-auto max-h-[70vh] pr-1">
+              <ul className="space-y-3">
+                {categories.map((cat) => (
+                  <li
+                    key={cat._id}
+                    className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg hover:bg-gray-50 transition gap-3"
+                  >
+                    <div className="flex items-center gap-3 flex-1">
+                      <span
+                        className="w-4 h-4 rounded-full"
+                        style={{ backgroundColor: cat.color }}
+                      />
 
-                    {editingId === cat._id ? (
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full">
-                        <input
-                          value={editValue}
-                          onChange={(e) => setEditValue(e.target.value)}
-                          className="border px-2 py-1 rounded w-full sm:w-auto"
-                        />
-
-                        <div className="flex flex-wrap gap-2">
-                          {[
-                            "#FF5733",
-                            "#3498DB",
-                            "#2ECC71",
-                            "#F1C40F",
-                            "#9B59B6",
-                          ].map((c) => (
-                            <div
-                              key={c}
-                              className={`w-6 h-6 rounded-full cursor-pointer border ${
-                                editColor === c ? "ring-2 ring-indigo-500" : ""
-                              }`}
-                              style={{ backgroundColor: c }}
-                              onClick={() => setEditColor(c)}
-                            />
-                          ))}
-
+                      {editingId === cat._id ? (
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 w-full">
                           <input
-                            type="color"
-                            value={editColor}
-                            onChange={(e) => setEditColor(e.target.value)}
-                            className="w-8 h-8 rounded cursor-pointer"
+                            value={editValue}
+                            onChange={(e) => setEditValue(e.target.value)}
+                            className="border px-2 py-1 rounded w-full sm:w-auto"
                           />
+
+                          <div className="flex flex-wrap gap-2">
+                            {[
+                              "#FF5733",
+                              "#3498DB",
+                              "#2ECC71",
+                              "#F1C40F",
+                              "#9B59B6",
+                            ].map((c) => (
+                              <div
+                                key={c}
+                                className={`w-6 h-6 rounded-full cursor-pointer border ${
+                                  editColor === c
+                                    ? "ring-2 ring-indigo-500"
+                                    : ""
+                                }`}
+                                style={{ backgroundColor: c }}
+                                onClick={() => setEditColor(c)}
+                              />
+                            ))}
+
+                            <input
+                              type="color"
+                              value={editColor}
+                              onChange={(e) => setEditColor(e.target.value)}
+                              className="w-8 h-8 rounded cursor-pointer"
+                            />
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      <span className="text-gray-700 font-medium">
-                        {cat.name}
-                      </span>
-                    )}
-                  </div>
+                      ) : (
+                        <span className="text-gray-700 font-medium">
+                          {cat.name}
+                        </span>
+                      )}
+                    </div>
 
-                  <div className="flex gap-3 self-end sm:self-auto">
-                    {editingId === cat._id ? (
-                      <CheckIcon
-                        className="w-6 h-6 cursor-pointer text-green-600 hover:text-green-800"
-                        onClick={() => handleSaveEdit(cat)}
-                      />
-                    ) : (
-                      <PencilSquareIcon
-                        className="w-6 h-6 cursor-pointer text-blue-600 hover:text-blue-800"
-                        onClick={() => startEdit(cat)}
-                      />
-                    )}
+                    <div className="flex gap-3 self-end sm:self-auto">
+                      {editingId === cat._id ? (
+                        <CheckIcon
+                          className="w-6 h-6 cursor-pointer text-green-600 hover:text-green-800"
+                          onClick={() => handleSaveEdit(cat)}
+                        />
+                      ) : (
+                        <PencilSquareIcon
+                          className="w-6 h-6 cursor-pointer text-blue-600 hover:text-blue-800"
+                          onClick={() => startEdit(cat)}
+                        />
+                      )}
 
-                    <TrashIcon
-                      className="w-6 h-6 cursor-pointer text-red-600 hover:text-red-800"
-                      onClick={() => handleDelete(cat._id)}
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
+                      <TrashIcon
+                        className="w-6 h-6 cursor-pointer text-red-600 hover:text-red-800"
+                        onClick={() => handleDelete(cat._id)}
+                      />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       )}
 
       {showDialog && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="relative bg-white p-6 rounded-lg w-full max-w-md mx-auto shadow-xl space-y-4">
+          <div className="relative bg-white p-6 rounded-lg w-full max-w-md mx-auto shadow-xl space-y-4 max-h-[80vh] overflow-y-auto">
             <button
               onClick={() => setShowDialog(false)}
               className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition"

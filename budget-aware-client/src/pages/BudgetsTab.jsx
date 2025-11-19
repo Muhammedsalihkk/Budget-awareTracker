@@ -26,7 +26,6 @@ const BudgetsTab = () => {
   const { budgets, loading, error } = useSelector((state) => state.budget);
   const { categories } = useSelector((state) => state.category);
 
-
   const [month, setMonth] = useState(() =>
     new Date().toISOString().slice(0, 7)
   );
@@ -42,6 +41,7 @@ const BudgetsTab = () => {
   const getBudgetByCategory = (categoryId) => {
     return budgets.find((b) => b.category._id === categoryId);
   };
+
   const handleDelete = async (id) => {
     const ok = window.confirm("Are you sure you want to delete this budget?");
     if (!ok) return;
@@ -50,7 +50,7 @@ const BudgetsTab = () => {
 
     if (res.meta.requestStatus === "fulfilled") {
       toast.success("Budget deleted!");
-      dispatch(getBudgets(month)); 
+      dispatch(getBudgets(month));
     } else {
       toast.error("Failed to delete budget");
     }
@@ -64,6 +64,7 @@ const BudgetsTab = () => {
 
     const existing = getBudgetByCategory(categoryId);
     let res;
+
     if (existing) {
       res = await dispatch(
         updateBudget({
@@ -96,13 +97,12 @@ const BudgetsTab = () => {
     }
 
     await dispatch(getBudgets(month));
-
     setEditingId(null);
     setEditAmount("");
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow">
+    <div className="max-w-3xl mx-auto p-4 sm:p-6 bg-gray-50 rounded-lg shadow min-h-screen flex flex-col">
       <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-3">
         <h2 className="text-3xl font-bold text-gray-800">Manage Budgets</h2>
 
@@ -135,7 +135,7 @@ const BudgetsTab = () => {
       )}
 
       {!loading && (
-        <div className="space-y-4">
+        <div className="space-y-4 overflow-y-auto max-h-[70vh] pr-1">
           {categories.map((cat) => {
             const budget = getBudgetByCategory(cat._id);
 
