@@ -19,12 +19,12 @@ A simple budget tracking application that helps users manage monthly budgets, re
 git clone "https://github.com/Muhammedsalihkk/Budget-awareTracker.git"
 
 - **Frontend**:
-cd budget-aware-client
-npm install
+cd budget-aware-client,
+npm install,
 npm run dev
 - **Backend:**
-cd budget-aware-server
-npm install
+cd budget-aware-server,
+npm install,
 npm run dev
 
 
