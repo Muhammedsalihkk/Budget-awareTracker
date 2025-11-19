@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
@@ -19,15 +19,14 @@ const validationSchema = Yup.object({
 
 const AddExpensePage = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { categories } = useSelector((state) => state.category);
   const { loading } = useSelector((state) => state.expense);
-  const [addCategoryOpen, setAddCategoryOpen] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
 
   useEffect(() => {
     dispatch(getCategories());
   }, [dispatch]);
-  const navigate = useNavigate();
 
   const initialValues = {
     category: "",
@@ -37,13 +36,16 @@ const AddExpensePage = () => {
 
   const handleSubmit = async (values, { resetForm }) => {
     const res = await dispatch(createExpense(values));
+
     if (res.meta.requestStatus === "fulfilled") {
       const result = res.payload;
+
       if (result?.isOver) {
         toast.error(result?.message || "Over budget!");
       } else {
         toast.success(result?.message || "Within budget!");
       }
+
       resetForm();
     } else {
       toast.error(res.payload?.message || "Failed to add expense");
@@ -56,94 +58,81 @@ const AddExpensePage = () => {
         Add New Expense
       </h2>
 
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        <Form className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Category
-            </label>
+      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+        {({ setFieldValue }) => (
+          <Form className="space-y-5">
+            {/* Category */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Category
+              </label>
 
-            <Field
-              as="select"
-              name="category"
-              className="w-full border border-gray-300 rounded-md p-2"
-              onChange={(e) => {
-                if (e.target.value === "__add_new__") {
-                  navigate("/settings/categories");
-                  return;
-                }
-  
-                e.target.form.dispatchEvent(
-                  new Event("submit", { cancelable: true })
-                );
-              }}
-            >
-              <option value="">Select Category</option>
+              <select
+                name="category"
+                className="w-full border border-gray-300 rounded-md p-2"
+                onChange={(e) => {
+                  if (e.target.value === "__add_new__") {
+                    navigate("/settings/categories");
+                    return;
+                  }
+                  setFieldValue("category", e.target.value);
+                }}
+              >
+                <option value="">Select Category</option>
 
-              {categories?.map((cat) => (
-                <option key={cat._id} value={cat._id}>
-                  {cat.name}
+                {categories?.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </option>
+                ))}
+
+                <option value="__add_new__" className="font-bold text-indigo-600">
+                  + Add Category
                 </option>
-              ))}
+              </select>
 
-              <option value="__add_new__" className="font-bold text-indigo-600">
-                + Add Category
-              </option>
-            </Field>
+              <ErrorMessage name="category" component="p" className="text-red-500 text-sm mt-1" />
+            </div>
 
-            <ErrorMessage
-              name="category"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Amount (₹)
-            </label>
-            <Field
-              type="number"
-              name="amount"
-              className="w-full border border-gray-300 rounded-md p-2"
-              placeholder="Enter amount"
-            />
-            <ErrorMessage
-              name="amount"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+            {/* Amount */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Amount (₹)
+              </label>
+              <Field
+                type="number"
+                name="amount"
+                className="w-full border border-gray-300 rounded-md p-2"
+                placeholder="Enter amount"
+              />
+              <ErrorMessage name="amount" component="p" className="text-red-500 text-sm mt-1" />
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Date
-            </label>
-            <Field
-              type="date"
-              name="date"
-              className="w-full border border-gray-300 rounded-md p-2"
-            />
-            <ErrorMessage
-              name="date"
-              component="p"
-              className="text-red-500 text-sm mt-1"
-            />
-          </div>
+            {/* Date */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Date
+              </label>
+              <Field
+                type="date"
+                name="date"
+                className="w-full border border-gray-300 rounded-md p-2"
+              />
+              <ErrorMessage name="date" component="p" className="text-red-500 text-sm mt-1" />
+            </div>
 
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-40 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-all disabled:opacity-50"
-            >
-              {loading ? "Saving..." : "Save Expense"}
-            </button>
-          </div>
-        </Form>
+            {/* Submit */}
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-40 bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 transition-all disabled:opacity-50"
+              >
+                {loading ? "Saving..." : "Save Expense"}
+              </button>
+            </div>
+          </Form>
+        )}
       </Formik>
     </div>
   );
