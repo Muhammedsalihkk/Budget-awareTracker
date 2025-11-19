@@ -8,7 +8,8 @@ import { useEffect } from "react";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const { error, loading,user } = useSelector((state) => state.auth);
+  const { error, loading,profile } = useSelector((state) => state.auth);
+  
   useEffect(() => {
    dispatch(getProfile());
   }, []);
@@ -45,7 +46,7 @@ const Profile = () => {
         <div className="w-24 h-24 bg-indigo-600 text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4 shadow-md">
           JD
         </div>
-        <h2 className="text-2xl font-bold text-gray-800">{user?.email.split("@")[0].toUpperCase()}</h2>
+        <h2 className="text-2xl font-bold text-gray-800">{profile&&profile.email.split("@")[0].toUpperCase()}</h2>
         <p className="text-sm text-gray-500">johndoe@example.com</p>
       </div>
 
@@ -54,7 +55,7 @@ const Profile = () => {
           Account Details
         </h3>
         <p className="text-gray-600">
-          <span className="font-medium">Joined:</span> {user?.createdAt.split("T")[0]}
+          <span className="font-medium">Joined:</span> {profile?.createdAt.split("T")[0]}
         </p>
         <p className="text-gray-600">
           <span className="font-medium">Status:</span> Active

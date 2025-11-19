@@ -5,15 +5,16 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
-    user: null,
-    token: null,
+    authUser: null,   
+    profile: null,    
     error: null,
   },
 
   reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
+    clearAuth: (state) => {
+      state.authUser = null;
+      state.profile = null;
+      state.error = null;
     },
   },
 
@@ -25,7 +26,7 @@ const authSlice = createSlice({
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.data;
+        state.authUser = action.payload.data; 
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;
@@ -37,37 +38,31 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.data;
+        state.authUser = action.payload.data;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })
+
       .addCase(getProfile.pending, (state) => {
         state.loading = true;
       })
       .addCase(getProfile.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload.data;
+        state.profile = action.payload.data;
       })
       .addCase(getProfile.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.profile = null; 
       })
-      .addCase(logoutUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
+
       .addCase(logoutUser.fulfilled, (state) => {
-        state.loading = false;
-        state.user = null;
-      })
-      .addCase(logoutUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
+        state.authUser = null;
+        state.profile = null;
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { clearAuth } = authSlice.actions;
 export default authSlice.reducer;

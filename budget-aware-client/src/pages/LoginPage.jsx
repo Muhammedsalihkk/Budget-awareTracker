@@ -20,7 +20,7 @@ const LoginPage = () => {
   const handleLogin = async (values, helpers) => {
     try {
       const res = await dispatch(loginUser(values));
-      console.log(res.meta.ful);
+      
       
       if(res.payload.success){
         toast.success("Logged in successfully!");

@@ -44,7 +44,6 @@ export const getProfile = createAsyncThunk(
       const response = await axiosInstance.get("/auth/profile");
       return response.data;
     } catch (error) {
-        console.log(error.response.data);
       return rejectWithValue(
         error.response?.data || { message: "Failed to load profile" }
       );

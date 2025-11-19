@@ -34,16 +34,12 @@ export const getCategories = createAsyncThunk(
 export const updateCategory = createAsyncThunk(
   "category/update",
   async ({ id, formData }, { rejectWithValue }) => {
-    try {
-        console.log(id);
-        
+    try {    
       const res = await axiosInstance.put(`/categories/${id}`, formData);
-      console.log(res.data);
+    
       
       return res.data;
-    } catch (error) {
-        console.log(error.response.data);
-        
+    } catch (error) {    
       return rejectWithValue(
         error.response?.data || { message: "Failed to update category" }
       );

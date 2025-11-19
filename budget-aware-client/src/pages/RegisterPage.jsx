@@ -20,7 +20,7 @@ const RegisterSchema = Yup.object().shape({
 const RegisterPage = () => {
   const navigate = useNavigate();
   const { loading, error } = useSelector((state) => state.auth);
-  console.log(error);
+
   
   const dispatch = useDispatch();
   const handleRegister = async (values, { resetForm }) => {

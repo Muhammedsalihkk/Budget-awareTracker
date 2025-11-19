@@ -17,7 +17,6 @@ const DashboardPage = () => {
   const [selectedMonth, setSelectedMonth] = useState(today);
 
   const { budgetVsExpense, loading } = useSelector((state) => state.report);
-  console.log(budgetVsExpense);
 
   useEffect(() => {
     dispatch(getMonthlySummary(selectedMonth));
