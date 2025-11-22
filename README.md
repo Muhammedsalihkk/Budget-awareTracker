@@ -4,7 +4,7 @@ A clean and responsive budget tracking application that helps users manage categ
 ---
 
 ## Live Demo (Hosted on Free Services)
-- **Frontend (Vercel):** https://budget-awaretracker.vercel.app  
+- **Frontend (Vercel):** https://budget-awaretracker.vercel.app
 - **Backend API (Render):** https://budget-awaretracker.onrender.com  
 
 ---

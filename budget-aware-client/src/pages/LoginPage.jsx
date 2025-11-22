@@ -20,14 +20,12 @@ const LoginPage = () => {
   const handleLogin = async (values, helpers) => {
     try {
       const res = await dispatch(loginUser(values));
-      
-      
-      if(res.payload.success){
+      if(res?.payload?.success){
         toast.success("Logged in successfully!");
         navigate("/dashboard",{replace:true});
       }
       else{
-        toast.error(res.payload.message || "Login failed!");
+        toast.error(res?.payload?.message || "Login failed!");
       }
    
     } catch (error) {

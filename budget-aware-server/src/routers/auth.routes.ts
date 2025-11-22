@@ -8,6 +8,6 @@ const router = Router();
 router.post("/register",validateJoi(validations.auth.register),authController.register);
 router.post("/login",validateJoi(validations.auth.login),authController.login);
 router.get("/profile",authMiddleware,authController.getProfile);
-router.post("/logout",authController.logout);
+router.post("/logout",authMiddleware,authController.logout);
 
 export default router;

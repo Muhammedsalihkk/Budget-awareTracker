@@ -6,7 +6,6 @@ import { getProfile } from "../redux/services/authApi";
 const PrivateRoute = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector((state) => state.auth);
-
   const [checkingAuth, setCheckingAuth] = useState(true);
 
   useEffect(() => {

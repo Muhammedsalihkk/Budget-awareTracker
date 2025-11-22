@@ -5,11 +5,15 @@ export const createExpense = createAsyncThunk(
   "expense/create",
   async (formData, { rejectWithValue }) => {
     try {
-      const response = await axiosInstance.post("/expenses", formData);
+      const token = sessionStorage.getItem("accessToken");
+      const response = await axiosInstance.post("/expenses", formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
   }
 );
-

@@ -10,23 +10,26 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction
 ): void => {
-  const token = req.cookies?.token;
-
-
-  if (!token) {
-    res
-      .status(401)
-      .json({ message: "Access denied. Authentication token missing" });
+  const authHeader = req.headers["authorization"]; 
+  if (!authHeader) {
+    res.status(401).json({ message: "Access denied. Token missing." });
     return;
   }
+  const token = authHeader.replace("Bearer ", "").trim();
+
+  if (!token) {
+    
+    
+    res.status(401).json({ message: "Access denied. Token missing." });
+    return;
+  }
+
   try {
     const secret = JWT_SECRET || "";
     const decoded = jwt.verify(token, secret) as { id: string };
     req.user = { id: decoded.id };
     next();
   } catch (error) {
-    res
-      .status(401)
-      .json({ message: "Invalid or expired authentication token." });
+    res.status(401).json({ message: "Invalid or expired token." });
   }
 };

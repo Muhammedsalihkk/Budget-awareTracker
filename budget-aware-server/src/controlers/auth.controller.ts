@@ -3,6 +3,7 @@ import authService from "../services/auth.service";
 import { sendSuccess } from "../utils/response";
 import tryCatch from "../utils/trycatch";
 import { AuthRequest } from "../types";
+import { setSessionItem } from "../utils/sessionStorage";
 
 const authController = {
   register: tryCatch(async (req: Request, res: Response) => {
@@ -26,15 +27,7 @@ const authController = {
       throw new Error("Login failed");
     }
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      path: "/",
-    });
-
-    sendSuccess(res, "Logged in successfully", user.email, 200);
+    sendSuccess(res, "Logged in successfully", {token:token,email:user.email}, 200);
   }),
 
   logout: tryCatch(async (req: Request, res: Response) => {
