@@ -3,7 +3,6 @@ import authService from "../services/auth.service";
 import { sendSuccess } from "../utils/response";
 import tryCatch from "../utils/trycatch";
 import { AuthRequest } from "../types";
-import { setSessionItem } from "../utils/sessionStorage";
 
 const authController = {
   register: tryCatch(async (req: Request, res: Response) => {
